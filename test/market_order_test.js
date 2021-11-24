@@ -58,14 +58,10 @@ contract("Dex", accounts => {
         await dex.createLimitOrder(1, web3.utils.fromUtf8("LINK"), 5, 400, {from: accounts[2]})
         await dex.createLimitOrder(1, web3.utils.fromUtf8("LINK"), 5, 500, {from: accounts[3]})
 
-        firstOrderbook = await dex.getOrderBook(web3.utils.fromUtf8("LINK"), 1);
-        console.log(firstOrderbook);
-
         //Create market order that should fill 2/3 orders in the book
         await dex.createMarketOrder(0, web3.utils.fromUtf8("LINK"), 10);
 
         orderbook = await dex.getOrderBook(web3.utils.fromUtf8("LINK"), 1); //Get sell side orderbook
-        console.log(orderbook);
         assert(parseInt(orderbook.length) == 1, "Sell side Orderbook should only have 1 order left");
         assert(parseInt(orderbook[0].filled) == 0, "Sell side order should have 0 filled");
 
